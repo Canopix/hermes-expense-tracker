@@ -200,6 +200,8 @@ During `./install.sh`, the wizard **always asks** for household language first (
 | Agent SOUL + skills | `locales/en/` or `locales/es/` |
 | Reports + chart labels | `EXPENSE_LOCALE` (`en` \| `es`) |
 | Expense descriptions in DB | Whatever you type in chat |
+| Default category **names** | Seeded at first bootstrap in household locale (`shared/seed-categories-en.sql` / `-es.sql`) |
+| Category **slugs** | Same in all locales (`supermercado`, `transporte`, …) — stable MCP identifiers |
 
 - Locale is stored in `~/.expenses/locale` and in each profile `.env` as `EXPENSE_LOCALE`.
 - Manual install: `EXPENSE_LOCALE=en ./add-member.sh alice Alice`
@@ -496,7 +498,8 @@ hermes-expense-tracker/
 │   ├── repair-profile.sh
 │   ├── smoke-test.sh
 │   └── lib/locale.sh         # EXPENSE_LOCALE resolution
-├── shared/seed-categories.sql
+├── shared/seed-categories-en.sql
+├── shared/seed-categories-es.sql
 ├── mcp/expense-tracker/
 │   ├── server.py             # 38 FastMCP tool definitions
 │   ├── manifest.yaml

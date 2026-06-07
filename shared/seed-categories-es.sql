@@ -1,4 +1,5 @@
--- Default expense categories (safe to ship with the product).
+-- Default expense categories (Spanish display names).
+-- Slugs are stable identifiers shared across locales (used in MCP calls and DB).
 -- Persons and projects are created at install time via add-member.sh or the agent.
 
 INSERT OR IGNORE INTO categories (slug, name) VALUES

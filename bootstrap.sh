@@ -7,6 +7,7 @@ VENV="${MCP_DIR}/.venv"
 DB_DIR="${HOME}/expenses/data"
 DB_PATH="${DB_DIR}/expenses.db"
 QUIET="${QUIET:-}"
+BOOTSTRAP_DB="${BOOTSTRAP_DB:-1}"
 
 log() {
   if [[ -z "${QUIET}" ]]; then
@@ -32,14 +33,22 @@ else
   "${VENV}/bin/pip" install -r "${MCP_DIR}/requirements.txt"
 fi
 
-log "==> Initializing shared database at ${DB_PATH} (schema + default categories)"
-mkdir -p "${DB_DIR}"
-export EXPENSE_DB_PATH="${DB_PATH}"
-export PYTHONPATH="${MCP_DIR}:${PYTHONPATH:-}"
-"${VENV}/bin/python" - <<'PY'
+if [[ "${BOOTSTRAP_DB}" == "1" ]]; then
+  LOCALE="${EXPENSE_LOCALE:-}"
+  if [[ -z "${LOCALE}" && -f "${HOME}/expenses/locale" ]]; then
+    LOCALE="$(tr -d '[:space:]' < "${HOME}/expenses/locale")"
+  fi
+  case "${LOCALE}" in en|es) ;; *) LOCALE="es" ;; esac
+
+  log "==> Initializing shared database at ${DB_PATH} (schema + categories, locale=${LOCALE})"
+  mkdir -p "${DB_DIR}"
+  export EXPENSE_DB_PATH="${DB_PATH}"
+  export PYTHONPATH="${MCP_DIR}:${PYTHONPATH:-}"
+  "${VENV}/bin/python" - <<PY
 from expense_tracker.db import init_db
-init_db(seed="categories")
+init_db(seed="categories", locale="${LOCALE}")
 PY
+fi
 
 ENV_SNIPPET="${ROOT}/.env.paths"
 cat > "${ENV_SNIPPET}" <<EOF
@@ -50,11 +59,13 @@ EXPENSE_DB_PATH=${DB_PATH}
 EOF
 
 if [[ -z "${QUIET}" ]]; then
-  echo "==> Database ready: ${DB_PATH}"
+  if [[ "${BOOTSTRAP_DB}" == "1" ]]; then
+    echo "==> Database ready: ${DB_PATH}"
+  fi
   echo "==> Wrote path variables to ${ENV_SNIPPET}"
   echo
   echo "Next steps:"
   echo "  1. ./install.sh"
-  echo "  2. Hermes: hermes setup o config.yaml del perfil (modelo)"
+  echo "  2. Hermes: hermes setup or profile config.yaml (model)"
   echo "  3. <slug> gateway setup && <slug> gateway start"
 fi

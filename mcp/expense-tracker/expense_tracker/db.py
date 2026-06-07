@@ -21,12 +21,22 @@ def get_schema_path() -> Path:
     return Path(__file__).resolve().parent / "schema.sql"
 
 
-def get_seed_path(mode: SeedMode) -> Path | None:
+def get_category_seed_path(locale: str | None = None) -> Path:
+    raw = (locale or os.getenv("EXPENSE_LOCALE") or "es").strip().lower()
+    if raw not in ("en", "es"):
+        raw = "es"
+    repo_root = Path(__file__).resolve().parents[3]
+    path = repo_root / "shared" / f"seed-categories-{raw}.sql"
+    if path.exists():
+        return path
+    return repo_root / "shared" / "seed-categories-es.sql"
+
+
+def get_seed_path(mode: SeedMode, *, locale: str | None = None) -> Path | None:
     if mode == "none":
         return None
     if mode == "categories":
-        repo_root = Path(__file__).resolve().parents[3]
-        return repo_root / "shared" / "seed-categories.sql"
+        return get_category_seed_path(locale)
     if mode == "test":
         return Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "seed-test.sql"
     raise ValueError(f"Unknown seed mode: {mode}")
@@ -41,7 +51,7 @@ def connect() -> sqlite3.Connection:
     return conn
 
 
-def init_db(*, seed: SeedMode | bool = "categories") -> Path:
+def init_db(*, seed: SeedMode | bool = "categories", locale: str | None = None) -> Path:
     if seed is True:
         seed_mode: SeedMode = "categories"
     elif seed is False:
@@ -53,7 +63,7 @@ def init_db(*, seed: SeedMode | bool = "categories") -> Path:
     schema = get_schema_path().read_text(encoding="utf-8")
     with connect() as conn:
         conn.executescript(schema)
-        seed_path = get_seed_path(seed_mode)
+        seed_path = get_seed_path(seed_mode, locale=locale)
         if seed_path is not None and seed_path.exists():
             conn.executescript(seed_path.read_text(encoding="utf-8"))
         conn.commit()

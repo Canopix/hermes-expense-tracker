@@ -49,7 +49,8 @@ Memoria Hermes deshabilitada: `memory.memory_enabled: false`
 hermes-expense-tracker/
 ├── bootstrap.sh
 ├── add-member.sh             # DB person + Hermes profile + SOUL
-├── shared/seed-categories.sql
+├── shared/seed-categories-en.sql
+├── shared/seed-categories-es.sql
 ├── mcp/expense-tracker/
 └── profiles/
     └── expense-member/       # único template (placeholders {{MEMBER_NAME}}, {{MEMBER_SLUG}})

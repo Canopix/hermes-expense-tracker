@@ -61,6 +61,8 @@ Durante `./install.sh`, el wizard **siempre pregunta** el idioma del hogar prime
 | `docs/es/` | Español |
 | SOUL + skills del agente | `locales/en/` o `locales/es/` |
 | Reportes y gráficos | `EXPENSE_LOCALE` (`en` \| `es`) |
+| Nombres de categorías default | Seed al bootstrap según locale (`shared/seed-categories-en.sql` / `-es.sql`) |
+| Slugs de categorías | Iguales en todos los locales (`supermercado`, `transporte`, …) |
 
 - El locale se guarda en `~/.expenses/locale` y en `.env` de cada perfil como `EXPENSE_LOCALE`.
 - Instalación manual: `EXPENSE_LOCALE=es ./add-member.sh alice Alice`
@@ -251,7 +253,8 @@ hermes-expense-tracker/
 │   ├── en/                   # BRIEFING, TO-INSTALL
 │   └── es/                   # README, BRIEFING, PARA-INSTALAR
 ├── .env.EXAMPLE
-├── shared/seed-categories.sql
+├── shared/seed-categories-en.sql
+├── shared/seed-categories-es.sql
 ├── mcp/expense-tracker/
 │   ├── server.py             # 38 tools FastMCP
 │   ├── manifest.yaml

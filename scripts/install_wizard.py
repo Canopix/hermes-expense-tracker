@@ -132,7 +132,7 @@ def bootstrap(locale: str) -> bool:
     console.print(
         Panel(f"[dim]{msg(locale, 'bootstrap_running')}[/dim]", title=msg(locale, "bootstrap_title"), border_style="cyan")
     )
-    result = run(["bash", str(ROOT / "bootstrap.sh")], env={"QUIET": "1"})
+    result = run(["bash", str(ROOT / "bootstrap.sh")], env={"QUIET": "1", "EXPENSE_LOCALE": locale})
     if result.returncode != 0:
         fail(msg(locale, "member_fail"))
         return False

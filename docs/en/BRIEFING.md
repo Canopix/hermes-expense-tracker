@@ -51,7 +51,8 @@ hermes-expense-tracker/
 ├── bootstrap.sh
 ├── add-member.sh             # DB person + Hermes profile + SOUL from locales/
 ├── locales/en|es/            # SOUL + skills per language
-├── shared/seed-categories.sql
+├── shared/seed-categories-en.sql
+├── shared/seed-categories-es.sql
 ├── mcp/expense-tracker/
 └── profiles/
     └── expense-member/       # Hermes shell template ({{MEMBER_NAME}}, {{MEMBER_SLUG}})
