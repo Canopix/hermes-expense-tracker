@@ -39,10 +39,12 @@ The `install.sh` wizard asks interactively:
 
 At the path printed by `add-member.sh` (typically `~/.hermes/profiles/expense-<slug>/`):
 
-1. Model: `hermes setup` or edit the profile `config.yaml`
-2. `<slug> gateway setup && <slug> gateway start`
-3. `hermes -p <slug> pairing approve telegram <CODE>`
-4. `hermes -p <slug> mcp test expense-tracker` → should show 38 tools
+| Step | Command |
+|------|---------|
+| Model | `hermes -p <slug> setup` |
+| Gateway | `<slug> gateway setup && <slug> gateway start` |
+| Pairing | `hermes -p <slug> pairing approve telegram <CODE>` |
+| Verify MCP | `hermes -p <slug> mcp test expense-tracker` → 38 tools |
 
 ## Onboarding in Hermes (conversational)
 
