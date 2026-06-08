@@ -357,24 +357,24 @@ def show_summary(db_path: Path, slugs: list[str], locale: str) -> None:
         profile_rows,
         "",
         f"[bold]{msg(locale, 'done_step_model')}[/bold]",
-        f"   hermes -p {primary} setup",
+        f"   hermes -p {profile} setup",
         "",
         f"[bold]{msg(locale, 'done_step_mcp')}[/bold]",
         f"   hermes -p {profile} mcp test expense-tracker",
         "",
         f"[bold]{msg(locale, 'done_step_telegram')}[/bold]",
         (
-            f"   {primary} gateway setup; {primary} gateway start"
+            f"   hermes -p {profile} gateway setup; hermes -p {profile} gateway start"
             if sys.platform == "win32"
-            else f"   {primary} gateway setup && {primary} gateway start"
+            else f"   hermes -p {profile} gateway setup && hermes -p {profile} gateway start"
         ),
         "",
         f"[bold]{msg(locale, 'done_step_pairing')}[/bold]",
-        f"   hermes -p {primary} pairing approve telegram <CODE>",
+        f"   hermes -p {profile} pairing approve telegram <CODE>",
         msg(locale, "done_pairing_help"),
         "",
         f"[bold]{msg(locale, 'done_step_chat')}[/bold]",
-        f"   {primary} chat",
+        f"   hermes -p {profile} chat",
         '   [dim]"Log $50 at the pharmacy, I paid" / "Registrá $5000 en farmacia, pagué yo"[/dim]',
     ]
     console.print()

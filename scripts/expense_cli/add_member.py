@@ -151,7 +151,7 @@ except repo.ValidationError as exc:
     if not quiet:
         print(f"==> Profile ready: {profile_name} (atajo: {slug})")
         print(f"    Path: {profile_dir}")
-        print(f"Next: hermes -p {profile_name} setup · {slug} gateway setup · gateway start")
+        print(f"Next: hermes -p {profile_name} setup · hermes -p {profile_name} gateway setup · gateway start")
     return 0
 
 
